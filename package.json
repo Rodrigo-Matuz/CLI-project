@@ -1,0 +1,18 @@
+{
+    "devDependencies": {
+        "prisma": "^5.5.2",
+        "typescript": "^5.2.2"
+    },
+    "dependencies": {
+        "commander": "^11.1.0",
+        "gpt-tokenizer": "^2.1.2",
+        "tsx": "^4.1.0",
+        "zod": "^3.22.4"
+    },
+    "bin": {
+        "test": "./src/index.ts"
+    },
+    "scripts": {
+        "test": "tsx ./src/index.ts"
+    }
+}
