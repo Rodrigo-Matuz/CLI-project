@@ -4,6 +4,7 @@
         "typescript": "^5.2.2"
     },
     "dependencies": {
+        "@prisma/client": "^5.5.2",
         "commander": "^11.1.0",
         "dotenv": "^16.3.1",
         "gpt-tokenizer": "^2.1.2",
@@ -14,6 +15,10 @@
         "gpt": "./src/index.ts"
     },
     "scripts": {
-        "gpt": "tsx ./src/index.ts"
+        "gpt": "tsx ./src/index.ts",
+        "dbprisma": "prisma db push"
+    },
+    "prisma": {
+        "schema": "src/prisma/schema.prisma"
     }
 }
