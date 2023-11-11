@@ -19,7 +19,7 @@ program
 program
     .command("config")
     .description("use this command to configure stuff like the default prompt")
-    .option("-df, --default-prompt", "set or change the default prompt")
+    .option("-t, --temperature", "change the temperature (default = 0.7)")
     .action((str, options) => {
         console.log(str, options);
     });
