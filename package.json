@@ -10,9 +10,9 @@
         "zod": "^3.22.4"
     },
     "bin": {
-        "test": "./src/index.ts"
+        "gpt": "./src/index.ts"
     },
     "scripts": {
-        "test": "tsx ./src/index.ts"
+        "gpt": "tsx ./src/index.ts"
     }
 }
