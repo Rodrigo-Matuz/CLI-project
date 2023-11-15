@@ -5,6 +5,7 @@
     },
     "dependencies": {
         "@prisma/client": "^5.5.2",
+        "chalk": "^5.3.0",
         "commander": "^11.1.0",
         "dotenv": "^16.3.1",
         "gpt-tokenizer": "^2.1.2",
@@ -19,6 +20,6 @@
         "dbprisma": "prisma db push"
     },
     "prisma": {
-        "schema": "src/prisma/schema.prisma"
+        "schema": "prisma/schema.prisma"
     }
 }

@@ -8,4 +8,5 @@ export async function pushToDataBase(tokens: number) {
             tokens: tokens,
         },
     });
+    return res;
 }

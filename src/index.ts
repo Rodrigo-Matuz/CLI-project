@@ -1,27 +1,41 @@
 #!/usr/bin/env tsx
 
-import { Command } from "commander";
-const program = new Command();
+import { program } from "commander";
+import mainGptLoop from "./openai/assistantInteraction";
+import OpenAIWrapper, { changeOrSetKey } from "./openai/wrapper";
+import chalk from "chalk";
 
-program.name("ChatGPT CLI").description("CLI to access ChatGPT 4.0 Turbo");
+async function handleAnswer(option: string) {
+    console.clear();
+    const chatGPT = new OpenAIWrapper();
 
-// input example:   gpt Hello
-// output:          Hello
+    if (option === "start") {
+        await mainGptLoop(chatGPT);
+    }
+
+    if (option === "changeSetKey") {
+        const key = program.opts().key;
+        if (key) {
+            console.clear();
+            console.log(changeOrSetKey(key));
+        } else {
+            console.log(chalk.red("No key provided. Please provide a key."));
+            process.exit();
+        }
+    } else {
+        process.exit();
+    }
+}
+
 program
-    .description("Print back the input")
-    .argument("<string>", "Text to use as input")
-    .action((str) => {
-        console.log(str);
-    });
+    .option("-s, --start", "Start the program")
+    .option("-k, --changeSetKey", "Change or set the Open AI API key")
+    .parse(process.argv);
 
-// input example:   gpt config --df Hello
-// output:          "Hello" as default prompt
-program
-    .command("config")
-    .description("use this command to configure stuff like the default prompt")
-    .option("-t, --temperature", "change the temperature (default = 0.7)")
-    .action((str, options) => {
-        console.log(str, options);
-    });
+const options = program.opts();
 
-program.parse();
+if (options.start) {
+    handleAnswer("start");
+} else if (options.changeSetKey) {
+    handleAnswer("changeSetKey");
+}
