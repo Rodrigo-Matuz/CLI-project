@@ -33,9 +33,7 @@ async function mainGptLoop(chatGPT: OpenAIWrapper) {
         let keepAsking = true;
 
         while (keepAsking) {
-            const userQuestion = await chatGPT.askPrompt(
-                chalk.blue("\nUser: ")
-            );
+            const userQuestion = await chatGPT.askPrompt(chalk.cyan("User: "));
             await chatGPT.createMessage(userQuestion, thread.id);
             const runStatus = await chatGPT.createRunAndWaitForCompletion(
                 thread.id,
@@ -54,7 +52,7 @@ async function mainGptLoop(chatGPT: OpenAIWrapper) {
                 lastMessageForCurrentRun
             );
             const totalTokens = getNumberOfTokens(userQuestion, gptResponse);
-            const res = await pushToDataBase(totalTokens);
+            await pushToDataBase(totalTokens);
 
             if (lastMessageForCurrentRun) {
                 console.log(chalk.green("ChatGPT: ") + gptResponse + "\n");
@@ -65,6 +63,7 @@ async function mainGptLoop(chatGPT: OpenAIWrapper) {
                     )
                 );
             }
+            console.log(chalk.cyan("=".repeat(20) + "\n"));
         }
     } catch (error) {
         console.error("An error occurred:", error);

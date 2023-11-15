@@ -1,9 +1,9 @@
-#!/usr/bin/env tsx
+#!/usr/bin/env node
 
 import { program } from "commander";
-import mainGptLoop from "./openai/assistantInteraction";
-import OpenAIWrapper, { changeOrSetKey } from "./openai/wrapper";
 import chalk from "chalk";
+import OpenAIWrapper, { changeOrSetKey } from "./openai/wrapper";
+import mainGptLoop from "./openai/assistantInteraction";
 
 async function handleAnswer(option: string) {
     console.clear();
@@ -28,14 +28,25 @@ async function handleAnswer(option: string) {
 }
 
 program
-    .option("-s, --start", "Start the program")
-    .option("-k, --changeSetKey", "Change or set the Open AI API key")
-    .parse(process.argv);
+    .option("-s, --start", "Start the program", async () => {
+        console.clear();
+        const chatGPT = new OpenAIWrapper();
+        await mainGptLoop(chatGPT);
+    })
+    .option(
+        "-k, --changeSetKey <key>",
+        "Change or set the Open AI API key",
+        (key) => {
+            console.clear();
+            if (key) {
+                console.log(changeOrSetKey(key));
+            } else {
+                console.log(
+                    chalk.red("No key provided. Please provide a key.")
+                );
+                process.exit();
+            }
+        }
+    );
 
-const options = program.opts();
-
-if (options.start) {
-    handleAnswer("start");
-} else if (options.changeSetKey) {
-    handleAnswer("changeSetKey");
-}
+program.parse(process.argv);

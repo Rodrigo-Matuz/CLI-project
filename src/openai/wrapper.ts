@@ -5,7 +5,6 @@ import { Run } from "openai/resources/beta/threads/runs/runs";
 import { Thread, Threads } from "openai/resources/beta/threads/threads";
 import fs from "fs";
 import { resolve } from "path";
-import chalk from "chalk";
 
 dotenv.config();
 
