@@ -4,7 +4,6 @@ import { program } from "commander";
 import chalk from "chalk";
 import OpenAIWrapper, { changeOrSetKey } from "./ai/wrapper";
 import mainGptLoop from "./ai/assistantInteraction";
-import { getForeignKeyDetails } from "../prisma/sql";
 
 program
     .option("-s, --start", "Start the program", async () => {
@@ -24,15 +23,6 @@ program
                 );
                 process.exit();
             }
-        }
-    )
-    .option(
-        "-vc, --voiceChat",
-        "Start the program but with voice chat enabled",
-        async () => {
-            console.clear();
-            const chatGPT = new OpenAIWrapper();
-            await mainGptLoop(chatGPT);
         }
     );
 

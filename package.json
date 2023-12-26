@@ -1,17 +1,21 @@
 {
     "name": "cli-gpt",
     "devDependencies": {
-        "prisma": "^5.5.2",
         "typescript": "^5.2.2"
     },
     "dependencies": {
         "@prisma/client": "^5.5.2",
+        "@types/pg": "^8.10.9",
         "chalk": "^4.1.2",
         "commander": "^11.1.0",
         "dotenv": "^16.3.1",
         "gpt-tokenizer": "^2.1.2",
         "openai": "^4.17.4",
-        "tsx": "^4.1.0"
+        "pg": "^8.11.3",
+        "prisma": "^5.7.1",
+        "speak-tts": "^2.0.8",
+        "tsx": "^4.7.0",
+        "vitest": "^1.1.0"
     },
     "main": "./dist/src/index.js",
     "bin": {
@@ -19,7 +23,8 @@
     },
     "scripts": {
         "gpt": "tsx ./src/index.ts",
-        "dbprisma": "prisma db push"
+        "dbprisma": "prisma db push",
+        "test": "vitest"
     },
     "prisma": {
         "schema": "prisma/schema.prisma"

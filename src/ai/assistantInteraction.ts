@@ -7,7 +7,7 @@ import { pushToDataBase } from "../../prisma/prisma";
 
 dotenv.config();
 
-async function handleGptResponse(message: ThreadMessage | undefined) {
+export async function handleGptResponse(message: ThreadMessage | undefined) {
     if (!message) {
         throw new Error(
             chalk.red("Error: No message found! Message Object is undefined")
@@ -26,19 +26,19 @@ async function handleGptResponse(message: ThreadMessage | undefined) {
 
 async function mainGptLoop(gpt: OpenAIWrapper) {
     console.clear();
+    let totalTokens = 0;
     let assistantId = process.env.ASSISTANT_ID;
     assistantId = await gpt.checkAssistantExistence(assistantId);
     const thread = await gpt.createThread();
-    let totalTokens = 0;
-    console.log(
-        chalk.yellow(
-            'Type "-s PromptName -s" save prompt\n^ Usage: "-p PromptName +"\ntype "!!" to quit'
-        )
-    );
+
+    console.log(chalk.yellow('type "!!" or "quit" to quit the program'));
+
+    // recursive function
     async function gptLoop(assistantId: string) {
         const userQuestion = await gpt.askPrompt(chalk.cyan("User: "));
 
-        if (userQuestion !== "!!") {
+        // while loop removed, user can stop the process by typing "!!"" or "quit"
+        if (userQuestion !== "!!" && userQuestion !== "quit") {
             await gpt.createMessage(userQuestion, thread.id);
             const runStatus = await gpt.createRunAndWaitForCompletion(
                 thread.id,
@@ -66,9 +66,12 @@ async function mainGptLoop(gpt: OpenAIWrapper) {
             }
             console.log(chalk.cyan("=".repeat(20) + "\n"));
 
+            // this part is only to calculate tokens and sum them for a final spend (user shouldn't interrupt the process)
             const tokens = getNumberOfTokens(userQuestion, gptResponse);
             totalTokens += tokens;
             await pushToDataBase(tokens);
+
+            // calling the function inside its own
             return gptLoop(assistantId);
         } else {
             console.log(chalk.yellow("\nTotal tokens: " + totalTokens));
